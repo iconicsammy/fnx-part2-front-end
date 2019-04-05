@@ -1,0 +1,176 @@
+<div *ngIf="stage == 'login'">
+    <div class="container-login100">
+        <div class="login-form">
+            {{ message }}
+            <form
+                [formGroup]="loginForm"
+                (ngSubmit)="handleLogin(loginForm.value)"
+            >
+                <h2 class="text-center">Login</h2>
+                <div class="form-group">
+                    <input
+                        type="text"
+                        class="form-control"
+                        placeholder="Email"
+                        formControlName="email"
+                        required="required"
+                    />
+                    <div
+                        class="alert  alert-warning"
+                        *ngIf="
+                            !loginForm.controls['email'].valid &&
+                            loginForm.controls['email'].touched
+                        "
+                    >
+                        Missing Email
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input
+                        type="password"
+                        class="form-control"
+                        placeholder="Password"
+                        formControlName="password"
+                        required="required"
+                    />
+                    <div
+                        class="alert alert-warning"
+                        *ngIf="
+                            !loginForm.controls['password'].valid &&
+                            loginForm.controls['password'].touched
+                        "
+                    >
+                        Bad password
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button
+                        type="submit"
+                        class="btn btn-primary btn-block"
+                        [disabled]="!loginForm.valid"
+                    >
+                        Login
+                    </button>
+                </div>
+            </form>
+
+            <p class="text-center">
+                Fenix International
+            </p>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="stage == 'loggedin'">
+    <div class="row">
+        <div class="col-md-12">
+            <a
+                href="#"
+                class="btn btn-primary"
+                href="#"
+                (click)="handleViewTasks($event)"
+                >View Tasks</a
+            >
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <h2>List of Tasks</h2>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Title</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr
+                        *ngFor="
+                            let task of tasks;
+                            let x = index;
+                            trackBy: trackByTaskId
+                        "
+                    >
+                        <td>{{ x + 1 }}</td>
+                        <td>{{ task.name }}</td>
+                        <td>
+                            <a
+                                class="btn"
+                                *ngIf="canDo.can_delete_task"
+                                (click)="handleDeleteTask($event, task.id, x)"
+                                href="#"
+                                >Delete</a
+                            >
+                            <a
+                                class="btn"
+                                *ngIf="canDo.can_change_task"
+                                (click)="handleEditTask($event, x)"
+                                href="#"
+                                >Change</a
+                            >
+                            <a
+                                class="btn"
+                                *ngIf="canDo.can_extra_can_read_task"
+                                (click)="handleReadTask($event)"
+                                href="#"
+                                >Read</a
+                            >
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="row" *ngIf="canDo.can_add_task">
+        <div class="col-md-12">
+            <h2>Add New Task</h2>
+            <div>
+                {{ message }}
+                <form
+                    [formGroup]="taskForm"
+                    (ngSubmit)="handleTaskForm(taskForm.value)"
+                >
+                    <div class="form-group">
+                        <input
+                            type="text"
+                            class="form-control"
+                            placeholder="name"
+                            formControlName="name"
+                            required="required"
+                        />
+                        <div
+                            class="alert  alert-warning"
+                            *ngIf="
+                                !taskForm.controls['name'].valid &&
+                                taskForm.controls['name'].touched
+                            "
+                        >
+                            enter title
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <button
+                            type="submit"
+                            class="btn btn-primary btn-block"
+                            [disabled]="!taskForm.valid"
+                        >
+                            Save
+                        </button>
+                        <button
+                            type="button"
+                            class="btn btn-secondary btn-block"
+                            (click)="handleCancelEdit()"
+                            *ngIf="addEditState == 'edit'"
+                        >
+                            Cancel Edit
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

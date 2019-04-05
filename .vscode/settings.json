@@ -1,0 +1,13 @@
+{
+	"editor.wordWrap": "off",
+	"editor.formatOnSave": false,
+    "files.exclude": {
+			"**/node_modules": {},
+			"typings": {},
+			"**/*.map": {},
+			"**/*.js": {
+				"when": "$(basename).ts"
+			}
+	},
+	"eslint.enable": false
+}
