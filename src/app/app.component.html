@@ -124,7 +124,7 @@
         </div>
     </div>
 
-    <div class="row" *ngIf="canDo.can_add_task">
+    <div class="row" *ngIf="canDo.can_add_task || canDo.can_change_task">
         <div class="col-md-12">
             <h2>Add New Task</h2>
             <div>
